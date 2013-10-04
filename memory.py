@@ -1,20 +1,21 @@
 # Memory Puzzle
 # By Al Sweigart al@inventwithpython.com
+# Modifibg by Marcin Bielak <marcin.bieli@gmail.com> for human brains experimental purpose
 # http://inventwithpython.com/pygame
 # Released under a "Simplified BSD" license
 
 import random, pygame, sys
 from pygame.locals import *
 from datetime import date, time, datetime
-        
+
 FPS = 30 # frames per second, the general speed of the program
 WINDOWWIDTH = 1024 # size of window's width in pixels
 WINDOWHEIGHT = 768 # size of windows' height in pixels
 REVEALSPEED = 8 # speed boxes' sliding reveals and covers
 BOXSIZE = 60 # size of box height & width in pixels
 GAPSIZE = 15 # size of gap between boxes in pixels
-BOARDWIDTH = 4 # number of columns of icons
-BOARDHEIGHT = 4 # number of rows of icons
+BOARDWIDTH = 6 # number of columns of icons
+BOARDHEIGHT = 6 # number of rows of icons
 assert (BOARDWIDTH * BOARDHEIGHT) % 2 == 0, 'Board needs to have an even number of boxes for pairs of matches.'
 XMARGIN = int((WINDOWWIDTH - (BOARDWIDTH * (BOXSIZE + GAPSIZE))) / 2)
 YMARGIN = int((WINDOWHEIGHT - (BOARDHEIGHT * (BOXSIZE + GAPSIZE))) / 2)
@@ -80,7 +81,7 @@ def main():
                 mousex, mousey = event.pos
                 mouseClicked = True
 
-        df = datetime.now() 
+        df = datetime.now()
         dt = df.strftime("%Y-%m-%d %M:%S;%s;") + str(df.microsecond) + ";"
 
         boxx, boxy = getBoxAtPixel(mousex, mousey)

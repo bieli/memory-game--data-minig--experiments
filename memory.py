@@ -5,15 +5,16 @@
 
 import random, pygame, sys
 from pygame.locals import *
-
+from datetime import date, time, datetime
+        
 FPS = 30 # frames per second, the general speed of the program
-WINDOWWIDTH = 640 # size of window's width in pixels
-WINDOWHEIGHT = 480 # size of windows' height in pixels
+WINDOWWIDTH = 1024 # size of window's width in pixels
+WINDOWHEIGHT = 768 # size of windows' height in pixels
 REVEALSPEED = 8 # speed boxes' sliding reveals and covers
-BOXSIZE = 40 # size of box height & width in pixels
-GAPSIZE = 10 # size of gap between boxes in pixels
-BOARDWIDTH = 10 # number of columns of icons
-BOARDHEIGHT = 7 # number of rows of icons
+BOXSIZE = 60 # size of box height & width in pixels
+GAPSIZE = 15 # size of gap between boxes in pixels
+BOARDWIDTH = 4 # number of columns of icons
+BOARDHEIGHT = 4 # number of rows of icons
 assert (BOARDWIDTH * BOARDHEIGHT) % 2 == 0, 'Board needs to have an even number of boxes for pairs of matches.'
 XMARGIN = int((WINDOWWIDTH - (BOARDWIDTH * (BOXSIZE + GAPSIZE))) / 2)
 YMARGIN = int((WINDOWHEIGHT - (BOARDHEIGHT * (BOXSIZE + GAPSIZE))) / 2)
@@ -79,6 +80,9 @@ def main():
                 mousex, mousey = event.pos
                 mouseClicked = True
 
+        df = datetime.now() 
+        dt = df.strftime("%Y-%m-%d %M:%S;%s;") + str(df.microsecond) + ";"
+
         boxx, boxy = getBoxAtPixel(mousex, mousey)
         if boxx != None and boxy != None:
             # The mouse is currently over a box.
@@ -94,6 +98,17 @@ def main():
                     icon1shape, icon1color = getShapeAndColor(mainBoard, firstSelection[0], firstSelection[1])
                     icon2shape, icon2color = getShapeAndColor(mainBoard, boxx, boxy)
 
+
+                    if icon1shape != icon2shape and icon1color != icon2color:
+                        print dt + ";-3"
+                    elif icon1color != icon2color:
+                        print dt + ";-2"
+                    elif icon1shape != icon2shape:
+                        print dt + ";-1"
+
+                    if icon1shape == icon2shape and icon1color == icon2color:
+                        print dt + ";1"
+
                     if icon1shape != icon2shape or icon1color != icon2color:
                         # Icons don't match. Re-cover up both selections.
                         pygame.time.wait(1000) # 1000 milliseconds = 1 sec
@@ -101,6 +116,8 @@ def main():
                         revealedBoxes[firstSelection[0]][firstSelection[1]] = False
                         revealedBoxes[boxx][boxy] = False
                     elif hasWon(revealedBoxes): # check if all pairs found
+                        print dt + ";10"
+
                         gameWonAnimation(mainBoard)
                         pygame.time.wait(2000)
 
